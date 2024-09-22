@@ -2,7 +2,7 @@ from Environments.BlackjackEnv import BlackjackEnv
 from Environments.CliffEnv import CliffEnv
 
 from monte_carlo import MonteCarlo
-from epsilon_greedy import EpsilonGreedy
+from policies.epsilon_greedy import EpsilonGreedy
 
 def get_action_from_user(actions):
     print("Valid actions:")

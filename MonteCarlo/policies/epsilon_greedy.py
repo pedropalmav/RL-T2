@@ -1,6 +1,7 @@
 import random
+from policies.abstract_policy import AbstractPolicy
 
-class EpsilonGreedy:
+class EpsilonGreedy(AbstractPolicy):
     def __init__(self, epsilon):
         self.epsilon = epsilon
 

@@ -1,6 +1,8 @@
 from Environments.BlackjackEnv import BlackjackEnv
 from Environments.CliffEnv import CliffEnv
 
+from monte_carlo import MonteCarlo
+from epsilon_greedy import EpsilonGreedy
 
 def get_action_from_user(actions):
     print("Valid actions:")
@@ -40,5 +42,17 @@ def play_cliff():
 
 
 if __name__ == '__main__':
-    play_blackjack()
-    # play_cliff()
+    # play_blackjack()
+
+    num_of_episodes = 50000
+    gamma = 0.99
+    epsilon = 0.1
+    cliff_width = 6
+    policy = EpsilonGreedy(epsilon)
+    env = CliffEnv(cliff_width)
+    monte_carlo = MonteCarlo(env, policy, gamma)
+    q_values = monte_carlo.run(num_of_episodes)
+
+    print("Q-values:")
+    for key, value in q_values.items():
+        print(f"{key}: {value}")

@@ -5,8 +5,8 @@ class IterativePolicyEvaluation:
         self.env = env
         self.gamma = gamma
         self.theta = theta
-        self.V = {state: 0 for state in self.env.states}
-        self.delta = 0
+        self.V = {state: 0.0 for state in self.env.states}
+        self.delta = 0.0
         
     def evaluate(self, policy):
         while True:
@@ -23,6 +23,8 @@ class IterativePolicyEvaluation:
         available_actions = self.env.get_available_actions(state)
         # TODO: Refactor this to use nested sums or create a new function
         for action in available_actions:
+            if self.env.is_terminal(state):
+                continue
             policy_prob = policy.get_prob(state, action)
             inner_sum = 0
             for prob, next_state, reward in self.env.get_transitions(state, action):

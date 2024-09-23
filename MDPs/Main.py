@@ -73,4 +73,4 @@ if __name__ == '__main__':
 
     problem = GridProblem(4)
     policy = UniformRandomPolicy(problem)
-    evaluate_policy_on_problem(policy, problem, gamma=1, theta=0.0001)
+    evaluate_policy_on_problem(policy, problem, gamma=1.0)

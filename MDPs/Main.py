@@ -65,7 +65,7 @@ def evaluate_policy_on_problem(policy, problem, gamma=1, theta=0.0000000001):
     evaluator = IterativePolicyEvaluation(problem, gamma=gamma, theta=theta)
     evaluator.evaluate(policy)
     initial_state = problem.get_initial_state()
-    print(evaluator.V[initial_state])
+    print("V(initial_state) = ", evaluator.V[initial_state])
 
 def estimate_policy_for_problem(problem, gamma=1, theta=0.0000000001):
     estimator = ValueIteration(problem, gamma=gamma, theta=theta)
@@ -76,10 +76,16 @@ if __name__ == '__main__':
     # play_grid_problem()
     # play_cookie_problem()
     # play_gambler_problem()
-
-    problem = GridProblem(4)
-    # problem = CookieProblem(3)
-    # problem = GamblerProblem(0.4)
-    policy = UniformRandomPolicy(problem)
-    # evaluate_policy_on_problem(policy, problem, gamma=1.0)
-    estimate_policy_for_problem(problem, gamma=1.0)
+    sizes = [3, 4, 5, 6, 7, 8, 9, 10]
+    #probs = [0.25, 0.4, 0.55]
+    #for p in probs:
+    for size in sizes:
+        problem = GridProblem(size)
+        #problem = CookieProblem(size)
+        #problem = GamblerProblem(p)
+        policy = UniformRandomPolicy(problem)
+        evaluate_policy_on_problem(policy, problem, gamma=1.0)
+        print("Size: ", size)
+        #print("p = ", p)
+   
+    #estimate_policy_for_problem(problem, gamma=1.0)

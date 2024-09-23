@@ -1,4 +1,4 @@
-from greedy_policy import GreedyPolicy
+from policies.greedy_policy import GreedyPolicy
 
 class ValueIteration:
     def __init__(self, env, gamma=1.0, theta=0.00001):

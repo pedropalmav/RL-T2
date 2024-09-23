@@ -1,5 +1,7 @@
 import random
 
+from policies.abstract_policy import AbstractPolicy
+
 class UniformRandomPolicy:
     def __init__(self, env):
         self.env = env

@@ -1,6 +1,8 @@
 import random
 
-class GreedyPolicy:
+from policies.abstract_policy import AbstractPolicy
+
+class GreedyPolicy(AbstractPolicy):
     def __init__(self, env, v_values, gamma):
         self.env = env
         self.v_values = v_values

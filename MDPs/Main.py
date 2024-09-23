@@ -5,7 +5,7 @@ from Problems.GridProblem import GridProblem
 from Problems.GamblerProblem import GamblerProblem
 
 from iterative_policy_evaluation import IterativePolicyEvaluation
-from uniform_random_policy import UniformRandomPolicy
+from policies.uniform_random_policy import UniformRandomPolicy
 from value_iteration import ValueIteration
 
 def get_action_from_user(actions):

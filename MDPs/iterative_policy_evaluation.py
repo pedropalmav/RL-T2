@@ -17,12 +17,12 @@ class IterativePolicyEvaluation:
     def __update_v_value(self, state, policy):
         v = self.V[state] 
         new_v = 0
-
+        available_actions = self.env.get_available_actions(state)
         # TODO: Refactor this to use nested sums or create a new function
-        for action in self.env.get_available_actions(state):
+        for action in available_actions:
             policy_prob = policy.get_prob(state, action)
             inner_sum = 0
-            for prob, next_state, reward in self.env.get_transitions(state, a):
+            for prob, next_state, reward in self.env.get_transitions(state, action):
                 inner_sum += prob * (reward + self.gamma * self.V[next_state])
             new_v += policy_prob * inner_sum
         self.V[state] = new_v

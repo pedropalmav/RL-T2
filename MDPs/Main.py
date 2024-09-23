@@ -6,6 +6,7 @@ from Problems.GamblerProblem import GamblerProblem
 
 from iterative_policy_evaluation import IterativePolicyEvaluation
 from uniform_random_policy import UniformRandomPolicy
+from value_iteration import ValueIteration
 
 def get_action_from_user(actions):
     print("Valid actions:")
@@ -66,11 +67,19 @@ def evaluate_policy_on_problem(policy, problem, gamma=1, theta=0.0000000001):
     initial_state = problem.get_initial_state()
     print(evaluator.V[initial_state])
 
+def estimate_policy_for_problem(problem, gamma=1, theta=0.0000000001):
+    estimator = ValueIteration(problem, gamma=gamma, theta=theta)
+    policy = estimator.estimate()
+    print(policy.get_action(problem.get_initial_state()))
+
 if __name__ == '__main__':
     # play_grid_problem()
     # play_cookie_problem()
     # play_gambler_problem()
 
     problem = GridProblem(4)
+    # problem = CookieProblem(3)
+    # problem = GamblerProblem(0.4)
     policy = UniformRandomPolicy(problem)
-    evaluate_policy_on_problem(policy, problem, gamma=1.0)
+    # evaluate_policy_on_problem(policy, problem, gamma=1.0)
+    estimate_policy_for_problem(problem, gamma=1.0)

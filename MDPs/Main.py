@@ -4,6 +4,8 @@ from Problems.CookieProblem import CookieProblem
 from Problems.GridProblem import GridProblem
 from Problems.GamblerProblem import GamblerProblem
 
+from iterative_policy_evaluation import IterativePolicyEvaluation
+from uniform_random_policy import UniformRandomPolicy
 
 def get_action_from_user(actions):
     print("Valid actions:")
@@ -52,13 +54,23 @@ def play_grid_problem():
     play(problem)
 
 
+
 def play_cookie_problem():
     size = 3
     problem = CookieProblem(size)
     play(problem)
 
+def evaluate_policy_on_problem(policy, problem, gamma=1, theta=0.0000000001):
+    evaluator = IterativePolicyEvaluation(problem, gamma=gamma, theta=theta)
+    evaluator.evaluate(policy)
+    initial_state = problem.get_initial_state()
+    print(evaluator.V[initial_state])
 
 if __name__ == '__main__':
     # play_grid_problem()
-    play_cookie_problem()
+    # play_cookie_problem()
     # play_gambler_problem()
+
+    problem = GridProblem(4)
+    policy = UniformRandomPolicy(problem)
+    evaluate_policy_on_problem(policy, problem, gamma=1, theta=0.0001)

@@ -13,11 +13,7 @@ class IterativePolicyEvaluation:
             self.delta = 0
             for state in self.env.states:
                 self.__update_v_value(state, policy)
-<<<<<<< HEAD
             # print(f"Delta: {self.delta}")
-=======
-            #print(f"Delta: {self.delta}")
->>>>>>> a98587f24076ed0c9b2874a4174996947b2f8af4
             if self.delta < self.theta:
                 break
         end = time.time_ns()

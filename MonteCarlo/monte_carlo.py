@@ -1,5 +1,6 @@
 from episode import Episode
 from Environments.CliffEnv import CliffEnv
+from policies.epsilon_greedy import EpsilonGreedy
 
 class MonteCarlo:
 
@@ -11,6 +12,9 @@ class MonteCarlo:
 
         self.episodes_for_test = 1000 if isinstance(env, CliffEnv) else 500000
         self.report = report
+        if report:
+            test_policy = EpsilonGreedy(0)
+            self.test_episode = Episode(env, test_policy)
 
     def run(self, num_episodes):
         q_values = {}
@@ -36,11 +40,11 @@ class MonteCarlo:
         return q_values
     
     def __should_report(self, episode):
-        return self.report and (episode + 1) % self.episodes_for_test == 0
+        return self.report and ((episode + 1) % self.episodes_for_test == 0 or episode == 0)
     
     def test_policy(self, q_values):
         num_of_simulations = 100000
         total_reward = 0.0
         for i in range(num_of_simulations):
-            total_reward += self.episode.evaluate_policy(q_values)
+            total_reward += self.test_episode.evaluate_policy(q_values)
         return total_reward / num_of_simulations

@@ -79,7 +79,6 @@ def evaluate_greedy_policy_on_problem(problem, gamma=1, theta=0.0000000001):
     return greedy_v_values
 
 if __name__ == '__main__':
-
     # problem = CookieProblem(3)
     # problem = GamblerProblem(0.55)
     problem = GridProblem(4)

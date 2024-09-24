@@ -1,3 +1,4 @@
+import time
 class IterativePolicyEvaluation:
     def __init__(self, env, gamma=1.0, theta=0.00001):
         self.env = env
@@ -7,13 +8,20 @@ class IterativePolicyEvaluation:
         self.delta = 0.0
         
     def evaluate(self, policy):
+        start = time.time_ns()
         while True:
             self.delta = 0
             for state in self.env.states:
                 self.__update_v_value(state, policy)
+<<<<<<< HEAD
             # print(f"Delta: {self.delta}")
+=======
+            #print(f"Delta: {self.delta}")
+>>>>>>> a98587f24076ed0c9b2874a4174996947b2f8af4
             if self.delta < self.theta:
                 break
+        end = time.time_ns()
+        print(f"Time taken: {(end-start)/1e6} ms")
     
     def __update_v_value(self, state, policy):
         v = self.V[state] 

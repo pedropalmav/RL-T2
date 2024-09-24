@@ -7,6 +7,7 @@ class GreedyPolicy(AbstractPolicy):
         self.env = env
         self.v_values = v_values
         self.gamma = gamma
+        self.optimal_actions = {}
 
 
     def __get_optimal_action(self, state):
@@ -14,6 +15,7 @@ class GreedyPolicy(AbstractPolicy):
         optimal_actions = [action for action in self.env.get_available_actions(state) 
                            if self.__calculate_sum(state, action) == max_v_value]
         #return random.choice(optimal_actions)
+        self.optimal_actions[str(state)] = optimal_actions
         return optimal_actions[0] #break ties arbitrarily --> first action selected
     
     def __get_optimal_value(self, state):
@@ -26,7 +28,12 @@ class GreedyPolicy(AbstractPolicy):
                    for prob, next_state, reward in transitions)
 
     def get_prob(self, state, action):
-        return 1.0 if action == self.__get_optimal_action(state) else 0.0
-
+        self.__get_optimal_action(state)
+        probs = {}
+        if action in self.optimal_actions[str(state)]:
+            probs[str(action)] = 1.0 / len(self.optimal_actions[str(state)])
+        else:
+            probs[str(action)] = 0.0
+        return probs
     def get_action(self, state):
         return self.__get_optimal_action(state)

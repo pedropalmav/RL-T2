@@ -81,9 +81,9 @@ def evaluate_greedy_policy_on_problem(problem, gamma=1, theta=0.0000000001):
 if __name__ == '__main__':
     # problem = CookieProblem(3)
     # problem = GamblerProblem(0.55)
-    problem = GridProblem(9)
+    problem = CookieProblem(10)
     #policy = UniformRandomPolicy(problem)
-    greedy_v_values = evaluate_greedy_policy_on_problem(problem, gamma=1, theta=0.0000000001)
+    greedy_v_values = evaluate_greedy_policy_on_problem(problem, gamma=0.99, theta=0.0000000001)
     print(greedy_v_values[problem.get_initial_state()])
     # v_values = evaluate_policy_on_problem(policy, problem, gamma=1.0)
     # v_values = evaluate_greedy_policy_on_problem(problem, gamma=1, theta=0.0000000001)

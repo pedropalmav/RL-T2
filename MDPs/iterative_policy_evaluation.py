@@ -13,7 +13,7 @@ class IterativePolicyEvaluation:
             self.delta = 0
             for state in self.env.states:
                 self.__update_v_value(state, policy)
-            print(f"Delta: {self.delta}")
+            #print(f"Delta: {self.delta}")
             if self.delta < self.theta:
                 break
         end = time.time_ns()
@@ -31,7 +31,7 @@ class IterativePolicyEvaluation:
             inner_sum = 0
             for prob, next_state, reward in self.env.get_transitions(state, action):
                 inner_sum += prob * (reward + self.gamma * self.V[next_state])
-            new_v += policy_prob * inner_sum
+            new_v += policy_prob[str(action)] * inner_sum
         self.V[state] = new_v
         self.delta = max(self.delta, abs(v - self.V[state]))
 

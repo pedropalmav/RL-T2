@@ -7,7 +7,10 @@ class UniformRandomPolicy:
         self.env = env
 
     def get_prob(self, state, action):
-        return 1.0 / len(self.env.get_available_actions(state))
+        probs = {}
+        probs[str(action)] = 1.0 / len(self.env.get_available_actions(state))
+        #return 1.0 / len(self.env.get_available_actions(state))
+        return probs
 
     def get_action(self, state):
         actions = self.env.get_available_actions(state)

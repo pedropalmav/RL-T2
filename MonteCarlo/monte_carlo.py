@@ -10,11 +10,13 @@ class MonteCarlo:
         self.gamma = gamma
         self.episode = Episode(env, policy)
 
-        self.episodes_for_test = 1000 if isinstance(env, CliffEnv) else 500000
         self.report = report
         if report:
             test_policy = EpsilonGreedy(0)
             self.test_episode = Episode(env, test_policy)
+            self.episodes_for_test = 1000 if isinstance(env, CliffEnv) else 500000
+            self.num_of_simulations = 1 if isinstance(self.env, CliffEnv) else 100000
+            
 
     def run(self, num_episodes):
         q_values = {}
@@ -43,8 +45,7 @@ class MonteCarlo:
         return self.report and ((episode + 1) % self.episodes_for_test == 0 or episode == 0)
     
     def test_policy(self, q_values):
-        num_of_simulations = 100000
         total_reward = 0.0
-        for i in range(num_of_simulations):
+        for i in range(self.num_of_simulations):
             total_reward += self.test_episode.evaluate_policy(q_values)
-        return total_reward / num_of_simulations
+        return total_reward / self.num_of_simulations

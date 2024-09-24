@@ -64,9 +64,11 @@ def print_q_values(q_values):
 
 if __name__ == '__main__':
 
-    num_of_episodes = 500000
-    gamma = 0.99
+    num_of_episodes = 200000
+    # num_of_episodes = 10000000
+    gamma = 1
     epsilon = 0.1
+    # epsilon = 0.01
     cliff_width = 6
     play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True)
     # play_blackjack(num_of_episodes, gamma, epsilon, show=True)

@@ -34,10 +34,10 @@ def play(env):
 def play_blackjack(num_of_episodes, gamma, epsilon, show=False, print_values=False):
     policy = EpsilonGreedy(epsilon)
     env = BlackjackEnv()
-    monte_carlo = MonteCarlo(env, policy, gamma)
+    monte_carlo = MonteCarlo(env, policy, gamma, report=True)
     q_values = monte_carlo.run(num_of_episodes)
     if show:
-        show_last_episode(env, env.action_space, q_values, policy)
+        show_last_episode(env, q_values, policy)
     if print_values:
         print_q_values(q_values)
 
@@ -45,7 +45,7 @@ def play_blackjack(num_of_episodes, gamma, epsilon, show=False, print_values=Fal
 def play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=False, print_values=False):
     policy = EpsilonGreedy(epsilon)
     env = CliffEnv(cliff_width)
-    monte_carlo = MonteCarlo(env, policy, gamma)
+    monte_carlo = MonteCarlo(env, policy, gamma, report=True)
     q_values = monte_carlo.run(num_of_episodes)
     if show:
         show_last_episode(env, q_values, policy)
@@ -63,11 +63,11 @@ def print_q_values(q_values):
 
 if __name__ == '__main__':
 
-    num_of_episodes = 200000
-    # num_of_episodes = 10000000
-    gamma = 0.9
+    # num_of_episodes = 200000
+    num_of_episodes = 10000000
+    gamma = 1
     # epsilon = 0.1
     epsilon = 0.01
     cliff_width = 6
-    play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True)
-    # play_blackjack(num_of_episodes, gamma, epsilon, show=True)
+    # play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True)
+    play_blackjack(num_of_episodes, gamma, epsilon, show=True)

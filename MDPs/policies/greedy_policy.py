@@ -25,7 +25,7 @@ class GreedyPolicy(AbstractPolicy):
                    for prob, next_state, reward in transitions)
 
     def get_prob(self, state, action):
-        return 1.0 if action == self.__get_optimal_action(state, self.env.get_available_actions) else 0.0
+        return 1.0 if action == self.__get_optimal_action(state) else 0.0
 
     def get_action(self, state):
         return self.__get_optimal_action(state)

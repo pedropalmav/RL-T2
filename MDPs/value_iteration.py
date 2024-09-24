@@ -13,7 +13,7 @@ class ValueIteration:
             self.delta = 0
             for state in self.env.states:
                 self.__update_v_value(state)
-            print(f"Delta: {self.delta}")
+            # print(f"Delta: {self.delta}")
             if self.delta < self.theta:
                 return GreedyPolicy(self.env, self.__V, self.gamma)
     

@@ -11,10 +11,9 @@ class MonteCarlo:
     def run(self, num_episodes):
         q_values = {}
         n_returns = {}
-        action_space = self.env.action_space
 
         for episode in range(num_episodes):
-            trace = self.episode.run(action_space, q_values)
+            trace = self.episode.generate_trace(q_values)
             g = 0
             
             for state, action, reward in trace[::-1]:
@@ -28,3 +27,5 @@ class MonteCarlo:
 
         return q_values
     
+    def test_policy(self):
+        pass

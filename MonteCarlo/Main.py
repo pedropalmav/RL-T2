@@ -48,14 +48,13 @@ def play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=False, print_v
     monte_carlo = MonteCarlo(env, policy, gamma)
     q_values = monte_carlo.run(num_of_episodes)
     if show:
-        show_last_episode(env, env.action_space, q_values, policy)
+        show_last_episode(env, q_values, policy)
     if print_values:
         print_q_values(q_values)
 
-def show_last_episode(env, actions, q_values, policy):
-    actions = env.action_space
+def show_last_episode(env, q_values, policy):
     last_episode = Episode(env, policy, show=True)
-    trace = last_episode.run(actions, q_values)
+    trace = last_episode.generate_trace(q_values)
 
 def print_q_values(q_values):
     print("Q-values:")
@@ -66,9 +65,9 @@ if __name__ == '__main__':
 
     num_of_episodes = 200000
     # num_of_episodes = 10000000
-    gamma = 1
-    epsilon = 0.1
-    # epsilon = 0.01
+    gamma = 0.9
+    # epsilon = 0.1
+    epsilon = 0.01
     cliff_width = 6
     play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True)
     # play_blackjack(num_of_episodes, gamma, epsilon, show=True)

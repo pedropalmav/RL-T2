@@ -13,7 +13,8 @@ class GreedyPolicy(AbstractPolicy):
         max_v_value = self.__get_optimal_value(state)
         optimal_actions = [action for action in self.env.get_available_actions(state) 
                            if self.__calculate_sum(state, action) == max_v_value]
-        return random.choice(optimal_actions)
+        #return random.choice(optimal_actions)
+        return optimal_actions[0] #break ties arbitrarily --> first action selected
     
     def __get_optimal_value(self, state):
         action_space = self.env.get_available_actions(state)

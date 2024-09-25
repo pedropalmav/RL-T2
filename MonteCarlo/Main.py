@@ -76,7 +76,7 @@ def print_q_values(q_values):
 if __name__ == '__main__':
 
     exp = Experiment(report=True)
-    exp.run_problem()
+    exp.run()
     # num_of_episodes = 200000
     # num_of_episodes = 10000000
     # gamma = 1.0

@@ -22,11 +22,13 @@ class Experiment:
             self.env = BlackjackEnv()
             self.epsilon = 0.01
             self.num_of_episodes = 10000000
+            self.step_for_report = 500000
         elif selected_env == EnvOption.CLIFF:
             cliff_width = self.__select_cliff_width()
             self.env = CliffEnv(cliff_width)
             self.epsilon = 0.1
             self.num_of_episodes = 200000
+            self.step_for_report = 1000
         else:
             raise ValueError("Invalid problem selection")
     
@@ -55,15 +57,20 @@ class Experiment:
         return q_values, average_returns
     
     def __generate_plot(self, runs_average_returns):
-        eps = [i for i in range(1, self.num_of_episodes+1, 1000)]
+        eps = [i for i in range(0, self.num_of_episodes + self.step_for_report, self.step_for_report)]
+        eps[0] += 1
+        x_label = 'Episodes'
+        if not isinstance(self.env, CliffEnv):
+            eps = [i/1000 for i in eps]
+            x_label = 'Episodes (at scale 1:1000)'
         plt.figure()
         for i in  range(len(runs_average_returns)):
             plt.plot(eps, runs_average_returns[i], label=f'Run {i+1}')
-        plt.xlabel('Episodes (at scale 1:1000)')
+        plt.xlabel(x_label)
         plt.ylabel('Average return')
         plt.legend()
-        plt.savefig('plot.png')
-        
+        filename = input("Enter the filename to save the plot: ")
+        plt.savefig(f'{filename}.png')
 
     def __show_final_policy(self, q_values):
         episode = Episode(self.env, self.monte_carlo.policy, show=True)

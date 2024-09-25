@@ -4,7 +4,7 @@ from Environments.CliffEnv import CliffEnv
 from monte_carlo import MonteCarlo
 from policies.epsilon_greedy import EpsilonGreedy
 from episode import Episode
-
+import matplotlib.pyplot as plt
 def get_action_from_user(actions):
     print("Valid actions:")
     for i in range(len(actions)):
@@ -31,26 +31,36 @@ def play(env):
     print(f"Total reward: {total_reward}")
 
 
-def play_blackjack(num_of_episodes, gamma, epsilon, show=False, print_values=False):
+def play_blackjack(num_of_episodes, gamma, epsilon, show=False, print_values=False, i_run=1):
     policy = EpsilonGreedy(epsilon)
     env = BlackjackEnv()
     monte_carlo = MonteCarlo(env, policy, gamma, report=True)
-    q_values = monte_carlo.run(num_of_episodes)
+    q_values, average_returns = monte_carlo.run(num_of_episodes)
     if show:
         show_last_episode(env, q_values, policy)
     if print_values:
         print_q_values(q_values)
+    eps = [0.001, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000]
+    #print('len: ', len(average_returns))
+    plt.plot(eps, average_returns, label=f'Run {i_run}')
+    
+    
 
 
-def play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=False, print_values=False):
+def play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=False, print_values=False, i_run=1):
     policy = EpsilonGreedy(epsilon)
     env = CliffEnv(cliff_width)
     monte_carlo = MonteCarlo(env, policy, gamma, report=True)
-    q_values = monte_carlo.run(num_of_episodes)
+    q_values, average_returns = monte_carlo.run(num_of_episodes)
     if show:
         show_last_episode(env, q_values, policy)
     if print_values:
         print_q_values(q_values)
+
+    eps = [i for i in range(1, 201000, 1000)]
+    #print('len: ', len(average_returns))
+    plt.plot(eps, average_returns, label=f'Run {i_run}')
+    
 
 def show_last_episode(env, q_values, policy):
     last_episode = Episode(env, policy, show=True)
@@ -63,11 +73,21 @@ def print_q_values(q_values):
 
 if __name__ == '__main__':
 
-    # num_of_episodes = 200000
-    num_of_episodes = 10000000
+    num_of_episodes = 200000
+    #num_of_episodes = 10000000
     gamma = 1
-    # epsilon = 0.1
-    epsilon = 0.01
-    cliff_width = 6
+    epsilon = 0.1
+    #epsilon = 0.01
+    cliff_width = 12
+    play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True,print_values=True, i_run = 1+1)
     # play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True)
-    play_blackjack(num_of_episodes, gamma, epsilon, show=True)
+    #play_blackjack(num_of_episodes, gamma, epsilon, show=False, print_values=True, i_run=1+1) 
+    #plt.figure(figsize=(5, 5)) 
+    #for i in range(5):
+     #   play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True, i_run = i+1)
+   #     play_blackjack(num_of_episodes, gamma, epsilon, show=True, print_values=False, i_run=i+1) 
+    #plt.xlabel('Episodes (at scale 1:1000)')
+    #plt.ylabel('Average return')
+    #plt.title('Monte Carlo - Cliff')
+    #plt.legend()
+    #plt.show()

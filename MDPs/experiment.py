@@ -74,6 +74,14 @@ class Experiment:
         policy_evaluation.evaluate(policy)
         return policy_evaluation.V
     
+    def __evaluate_greedy_policy(self):
+        uniform_policy = UniformRandomPolicy(self.problem)
+        initial_v_values = self.__iterative_policy_evaluation(uniform_policy)
+        greedy_policy = GreedyPolicy(self.problem, initial_v_values, self.gamma)
+        v_values = self.__iterative_policy_evaluation(greedy_policy)
+        initial_state = self.problem.get_initial_state()
+        print(f"V_0: {v_values[initial_state]}")
+    
     def __generate_plot(self, runs_average_returns):
         x_label = 'Episodes'
         plt.figure()

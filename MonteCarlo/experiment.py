@@ -14,7 +14,6 @@ class Experiment:
 
         self.__initialize_problem()
         self.task = self.__select_task()
-        # TODO: Move select task here
         self.__initialize_monte_carlo()
 
 

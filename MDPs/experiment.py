@@ -86,7 +86,7 @@ class Experiment:
         estimator = ValueIteration(self.problem, gamma=self.gamma)
         policy = estimator.estimate()
         initial_state = self.problem.get_initial_state()
-        print(policy.v_values[initial_state])
+        print(f"V_0: {policy.v_values[initial_state]}")
         return policy
 
     def __plot_optimal_policy(self):

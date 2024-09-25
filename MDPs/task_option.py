@@ -1,0 +1,7 @@
+import enum
+
+class TaskOption(enum.Enum):
+    EVALUATE_UNIFORM_POLICY = 1
+    EVALUATE_GREEDY_POLICY = 2
+    VALUE_ITERATION = 3
+    PLOT_OPTIMAL_POLICY = 4

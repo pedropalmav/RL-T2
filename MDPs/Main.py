@@ -5,6 +5,8 @@ from Problems.CookieProblem import CookieProblem
 from Problems.GridProblem import GridProblem
 from Problems.GamblerProblem import GamblerProblem
 
+from experiment import Experiment
+
 from iterative_policy_evaluation import IterativePolicyEvaluation
 from policies.uniform_random_policy import UniformRandomPolicy
 from policies.greedy_policy import GreedyPolicy
@@ -96,7 +98,7 @@ def estimate_policy_for_problem(problem, gamma=1, theta=0.0000000001):
     plt.xlabel('Capital')
     plt.ylabel('Stake')
     plt.title('Scatter plot of Optimal Actions for each State')
-    plt.show()
+    plt.savefig('OptimalActions.png')
 
 def evaluate_greedy_policy_on_problem(problem, gamma=1, theta=0.0000000001):
     policy = UniformRandomPolicy(problem)
@@ -114,7 +116,9 @@ def evaluate_greedy_policy_on_problem(problem, gamma=1, theta=0.0000000001):
     return greedy_v_values
 
 if __name__ == '__main__':
-    estimate_policy_for_problem(GamblerProblem(0.55), gamma=1.0, theta=0.0000000001)
+    exp = Experiment()
+    exp.run()
+    # estimate_policy_for_problem(GamblerProblem(0.55), gamma=1.0, theta=0.0000000001)
     # problem = CookieProblem(3)
     # problem = GamblerProblem(0.55)
     #sizes = [3, 4, 5, 6, 7, 8, 9, 10]

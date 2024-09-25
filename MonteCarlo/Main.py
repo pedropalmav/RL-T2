@@ -1,3 +1,5 @@
+from experiment import Experiment
+
 from Environments.BlackjackEnv import BlackjackEnv
 from Environments.CliffEnv import CliffEnv
 
@@ -73,15 +75,17 @@ def print_q_values(q_values):
 
 if __name__ == '__main__':
 
-    num_of_episodes = 200000
-    #num_of_episodes = 10000000
-    gamma = 1
-    epsilon = 0.1
-    #epsilon = 0.01
-    cliff_width = 12
-    play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True,print_values=True, i_run = 1+1)
+    exp = Experiment(report=True)
+    exp.run_problem()
+    # num_of_episodes = 200000
+    # num_of_episodes = 10000000
+    # gamma = 1.0
+    # epsilon = 0.1
+    # epsilon = 0.01
+    # cliff_width = 6
     # play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True)
-    #play_blackjack(num_of_episodes, gamma, epsilon, show=False, print_values=True, i_run=1+1) 
+    # play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True)
+    # play_blackjack(num_of_episodes, gamma, epsilon, show=False, print_values=True) 
     #plt.figure(figsize=(5, 5)) 
     #for i in range(5):
      #   play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True, i_run = i+1)

@@ -1,0 +1,70 @@
+import matplotlib.pyplot as plt
+
+from Environments.BlackjackEnv import BlackjackEnv
+from Environments.CliffEnv import CliffEnv
+from Environments.env_option import EnvOption
+from monte_carlo import MonteCarlo
+from policies.epsilon_greedy import EpsilonGreedy
+from episode import Episode
+
+class Experiment:
+    def __init__(self, gamma=1.0, report=False):
+        self.gamma = gamma
+        self.report = report
+
+        self.__initialize_problem()
+        self.__initialize_monte_carlo()
+
+
+    def __initialize_problem(self):
+        selected_env = self.__select_problem()
+        if selected_env == EnvOption.BLACKJACK:
+            self.env = BlackjackEnv()
+            self.epsilon = 0.01
+            self.num_of_episodes = 10000000
+        elif selected_env == EnvOption.CLIFF:
+            cliff_width = self.__select_cliff_width()
+            self.env = CliffEnv(cliff_width)
+            self.epsilon = 0.1
+            self.num_of_episodes = 200000
+        else:
+            raise ValueError("Invalid problem selection")
+    
+    def __select_problem(self):
+        print("Select the problem:")
+        for problem in EnvOption:
+            print(f"{problem.value}. {problem.name}")
+        selection = int(input())
+        return EnvOption(selection)
+        
+    def __select_cliff_width(self):
+        print("Enter the width of the cliff:")
+        return int(input())
+    
+    def __initialize_monte_carlo(self):
+        policy = EpsilonGreedy(self.epsilon)
+        self.monte_carlo = MonteCarlo(self.env, policy, self.gamma, report=self.report)
+
+    def run(self):
+        q_values, average_returns = self.run_problem()
+        # self.__show_final_policy(q_values)
+        self.__generate_plot([average_returns])
+
+    def run_problem(self):
+        q_values, average_returns = self.monte_carlo.run(self.num_of_episodes)
+        return q_values, average_returns
+    
+    def __generate_plot(self, runs_average_returns):
+        eps = [i for i in range(1, self.num_of_episodes+1, 1000)]
+        plt.figure()
+        for i in  range(len(runs_average_returns)):
+            plt.plot(eps, runs_average_returns[i], label=f'Run {i+1}')
+        plt.xlabel('Episodes (at scale 1:1000)')
+        plt.ylabel('Average return')
+        plt.legend()
+        plt.savefig('plot.png')
+        
+
+    def __show_final_policy(self, q_values):
+        episode = Episode(self.env, self.monte_carlo.policy, show=True)
+        episode.generate_trace(q_values)

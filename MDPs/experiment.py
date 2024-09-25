@@ -81,12 +81,29 @@ class Experiment:
         v_values = self.__iterative_policy_evaluation(greedy_policy)
         initial_state = self.problem.get_initial_state()
         print(f"V_0: {v_values[initial_state]}")
+
+    def __value_iteration(self):
+        estimator = ValueIteration(self.problem, gamma=self.gamma)
+        policy = estimator.estimate()
+        initial_state = self.problem.get_initial_state()
+        print(policy.v_values[initial_state])
+        return policy
+
+    def __plot_optimal_policy(self):
+        policy = self.__value_iteration()
+        states = self.problem.states
+        for state in states[1:100]:
+            policy.get_action(state)
+        actions = policy.optimal_actions
+        self.__generate_plot(actions)
     
-    def __generate_plot(self, runs_average_returns):
-        x_label = 'Episodes'
-        plt.figure()
-        plt.xlabel(x_label)
-        plt.ylabel('Average return')
-        plt.legend()
-        filename = input("Enter the filename to save the plot: ")
-        plt.savefig(f'{filename}.png')
+    def __generate_plot(self, actions):
+        y = list(actions.values())
+        plt.figure(figsize=(10, 5))
+        for idx, actions in enumerate(y):
+            for action in actions:
+                plt.scatter(idx, action, c='orange', s=0.7)
+        plt.xlabel('Capital')
+        plt.ylabel('Stake')
+        plt.title('Scatter plot of Optimal Actions for each State')
+        plt.savefig('OptimalActions.png')

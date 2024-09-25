@@ -1,4 +1,5 @@
-import random
+#import random
+import numpy as np
 
 from policies.abstract_policy import AbstractPolicy
 
@@ -15,17 +16,19 @@ class GreedyPolicy(AbstractPolicy):
         optimal_actions = [action for action in self.env.get_available_actions(state) 
                            if self.__calculate_sum(state, action) == max_v_value]
         #return random.choice(optimal_actions)
+        #if type(optimal_actions) == list:
+        #    optimal_actions = min(optimal_actions)
         self.optimal_actions[str(state)] = optimal_actions
         return optimal_actions[0] #break ties arbitrarily --> first action selected
     
-    def __get_optimal_value(self, state):
-        action_space = self.env.get_available_actions(state)
+    def __get_optimal_value(self, state):  
+        action_space = self.env.get_available_actions(state)    
         return max(self.__calculate_sum(state, action) for action in action_space)
-
+    
     def __calculate_sum(self, state, action):
         transitions = self.env.get_transitions(state, action)
-        return sum(prob * (reward + self.gamma * self.v_values[next_state]) 
-                   for prob, next_state, reward in transitions)
+        return np.round(sum(prob * (reward + self.gamma * self.v_values[next_state]) 
+                   for prob, next_state, reward in transitions),5)
 
     def get_prob(self, state, action):
         self.__get_optimal_action(state)

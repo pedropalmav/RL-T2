@@ -1,4 +1,5 @@
 import random
+import matplotlib.pyplot as plt
 
 from Problems.CookieProblem import CookieProblem
 from Problems.GridProblem import GridProblem
@@ -69,22 +70,64 @@ def estimate_policy_for_problem(problem, gamma=1, theta=0.0000000001):
     estimator = ValueIteration(problem, gamma=gamma, theta=theta)
     policy = estimator.estimate()
     initial_state = problem.get_initial_state()
-    print(policy.v_values[initial_state])
+    #print(policy.v_values[initial_state])
+
+    states = problem.states
+    for state in states[1:100]:
+        policy.get_action(state)
+    actions = policy.optimal_actions
+    #print(actions)
+    #key_list = list(actions.keys())
+    #for idx, state in enumerate(key_list):
+        #key_list[idx] = int(state)
+    #print(list(actions.values()))
+    #plot actions
+    
+
+    #x = key_list
+    y = list(actions.values())
+    #print(y)
+    #define plot size
+    plt.figure(figsize=(10, 5))
+    for idx, actions in enumerate(y):
+        for action in actions:
+            plt.scatter(idx, action, c='orange', s=0.7)
+    #plt.scatter(x, y)
+    plt.xlabel('Capital')
+    plt.ylabel('Stake')
+    plt.title('Scatter plot of Optimal Actions for each State')
+    plt.show()
 
 def evaluate_greedy_policy_on_problem(problem, gamma=1, theta=0.0000000001):
     policy = UniformRandomPolicy(problem)
     initial_v_values = evaluate_policy_on_problem(policy, problem, gamma, theta)
     greedy_policy = GreedyPolicy(problem, initial_v_values, gamma)
     greedy_v_values = evaluate_policy_on_problem(greedy_policy, problem, gamma, theta)
+    old_actions = greedy_policy.optimal_actions
+    new_greedy_policy = GreedyPolicy(problem, greedy_v_values, gamma)
+    new_greedy_v_values = evaluate_policy_on_problem(new_greedy_policy, problem, gamma, theta)
+    new_actions = new_greedy_policy.optimal_actions
+    if old_actions == new_actions:
+        print("Greedy Policy IS Optimal")
+    else:   
+        print("Greedy Policy is NOT Optimal")
     return greedy_v_values
 
 if __name__ == '__main__':
+    estimate_policy_for_problem(GamblerProblem(0.55), gamma=1.0, theta=0.0000000001)
     # problem = CookieProblem(3)
     # problem = GamblerProblem(0.55)
-    problem = CookieProblem(10)
+    #sizes = [3, 4, 5, 6, 7, 8, 9, 10]
+    #ps = [0.25, 0.4, 0.55]
+    #for size in ps:
+    #    problem = GamblerProblem(size)
+    #    greedy_v_values = evaluate_greedy_policy_on_problem(problem, gamma=1, theta=0.0000000001)
+    #    print("V(initial_state) = ",greedy_v_values[problem.get_initial_state()])
+    #    print("Size = ", size)
+    #problem = GridProblem(4)
     #policy = UniformRandomPolicy(problem)
-    greedy_v_values = evaluate_greedy_policy_on_problem(problem, gamma=0.99, theta=0.0000000001)
-    print(greedy_v_values[problem.get_initial_state()])
+    #greedy_v_values = evaluate_greedy_policy_on_problem(problem, gamma=1, theta=0.0000000001)
+    #print("V(initial_state) = ",greedy_v_values[problem.get_initial_state()])
     # v_values = evaluate_policy_on_problem(policy, problem, gamma=1.0)
     # v_values = evaluate_greedy_policy_on_problem(problem, gamma=1, theta=0.0000000001)
     # initial_state = problem.get_initial_state()

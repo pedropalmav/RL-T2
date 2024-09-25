@@ -1,6 +1,6 @@
 import time
 class IterativePolicyEvaluation:
-    def __init__(self, env, gamma=1.0, theta=0.00001):
+    def __init__(self, env, gamma=1.0, theta=0.0000000001):
         self.env = env
         self.gamma = gamma
         self.theta = theta

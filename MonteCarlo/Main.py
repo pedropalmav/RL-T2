@@ -77,21 +77,3 @@ if __name__ == '__main__':
 
     exp = Experiment()
     exp.run()
-    # num_of_episodes = 200000
-    # num_of_episodes = 10000000
-    # gamma = 1.0
-    # epsilon = 0.1
-    # epsilon = 0.01
-    # cliff_width = 6
-    # play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True)
-    # play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True)
-    # play_blackjack(num_of_episodes, gamma, epsilon, show=False, print_values=True) 
-    #plt.figure(figsize=(5, 5)) 
-    #for i in range(5):
-     #   play_cliff(num_of_episodes, gamma, epsilon, cliff_width, show=True, i_run = i+1)
-   #     play_blackjack(num_of_episodes, gamma, epsilon, show=True, print_values=False, i_run=i+1) 
-    #plt.xlabel('Episodes (at scale 1:1000)')
-    #plt.ylabel('Average return')
-    #plt.title('Monte Carlo - Cliff')
-    #plt.legend()
-    #plt.show()

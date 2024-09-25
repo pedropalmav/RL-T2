@@ -68,11 +68,19 @@ class Experiment:
     def __obtain_final_policy(self):
         q_values, average_returns = self.run_problem()
         self.__show_final_episode(q_values)
+        show_q = input("Do you want to see the Q-values? (y/n): ")
+        if show_q == 'y':
+            self.__show_q_values(q_values)
     
     def __show_final_episode(self, q_values):
         last_episode = Episode(self.env, self.monte_carlo.policy, show=True)
         print("\nFinal policy:\n")
         last_episode.generate_trace(q_values)
+
+    def __show_q_values(self, q_values):
+        print("Q-values:")
+        for key, value in q_values.items():
+            print(f"State: {key}, Q-values: {value}")
     
     def __simulate_policy(self):
         runs_average_returns = []

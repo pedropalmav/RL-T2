@@ -75,7 +75,7 @@ def print_q_values(q_values):
 
 if __name__ == '__main__':
 
-    exp = Experiment(report=True)
+    exp = Experiment()
     exp.run()
     # num_of_episodes = 200000
     # num_of_episodes = 10000000

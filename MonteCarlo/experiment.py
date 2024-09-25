@@ -13,6 +13,8 @@ class Experiment:
         self.report = report
 
         self.__initialize_problem()
+        self.task = self.__select_task()
+        # TODO: Move select task here
         self.__initialize_monte_carlo()
 
 
@@ -45,13 +47,41 @@ class Experiment:
     
     def __initialize_monte_carlo(self):
         policy = EpsilonGreedy(self.epsilon)
+        if self.task == 2:
+            self.report = True
         self.monte_carlo = MonteCarlo(self.env, policy, self.gamma, report=self.report)
 
     def run(self):
-        q_values, average_returns = self.run_problem()
-        # self.__show_final_policy(q_values)
-        self.__generate_plot([average_returns])
+        if self.task == 1:
+            self.__obtain_final_policy()
+        elif self.task == 2:
+            self.__simulate_policy()
+        else:
+            raise ValueError("Invalid task selection")
 
+    def __select_task(self):
+        print("Select the task:")
+        print("1. Show the final policy")
+        print("2. Generate plot for 5 runs")
+        selection = int(input())
+        return selection
+    
+    def __obtain_final_policy(self):
+        q_values, average_returns = self.run_problem()
+        self.__show_final_episode(q_values)
+    
+    def __show_final_episode(self, q_values):
+        last_episode = Episode(self.env, self.monte_carlo.policy, show=True)
+        print("\nFinal policy:\n")
+        last_episode.generate_trace(q_values)
+    
+    def __simulate_policy(self):
+        runs_average_returns = []
+        for i in range(5):
+            q_values, average_returns = self.run_problem()
+            runs_average_returns.append(average_returns)
+        self.__generate_plot(runs_average_returns)
+        
     def run_problem(self):
         q_values, average_returns = self.monte_carlo.run(self.num_of_episodes)
         return q_values, average_returns
@@ -71,7 +101,3 @@ class Experiment:
         plt.legend()
         filename = input("Enter the filename to save the plot: ")
         plt.savefig(f'{filename}.png')
-
-    def __show_final_policy(self, q_values):
-        episode = Episode(self.env, self.monte_carlo.policy, show=True)
-        episode.generate_trace(q_values)
